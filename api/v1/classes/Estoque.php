@@ -1,12 +1,65 @@
 <?php
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 	class Estoque
 	{
 		public function mostrar()
 		{
-			$con = new PDO('mysql: host=locahost; dbname=filial;','root','');
+			$con = new PDO('mysql: host=locahost; dbname=estoque;','root','');
 
-			$sql = "SELECT * FROM estoque ORDER BY id ASC";
+			$sql = "SELECT * FROM produtos ORDER BY id ASC";
 			$sql = $con->prepare($sql);
 			$sql->execute();
 
@@ -23,3 +76,4 @@
 			return $resultados;
 		}
 	}
+	*/

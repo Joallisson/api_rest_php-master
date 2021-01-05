@@ -1,4 +1,65 @@
 <?php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 header('Content-Type: application/json; charset=utf-8');
 
 require_once 'classes/Estoque.php';
@@ -37,6 +98,8 @@ class Rest
 	}
 }
 
+
 if (isset($_REQUEST)) {
 	echo Rest::open($_REQUEST);
 }
+*/

@@ -1,12 +1,40 @@
 <?php
 
-if (isset($_REQUEST)) {
-	var_dump($_REQUEST);
-} else {
-	# code...
+class Rest //Classe Rest
+{
+	public static function open($requisicao) //Método open
+	{
+		$url = explode('/', $_REQUEST['url']); //Essa linha de código, quebra em vários pedaços, a requisição do tipo GET que é passada na URL. O corte da string da requisição é feito sempre que aparaece o "/"		
+
+		$classe = ucfirst($url[0]); //Está pegando o primeiro pedaço da string e jogando dentro da variável $classe| a função ucfirst() deixa a primeira letra maiúscula
+		array_shift($url); //Está removendo o valor da primeiro posição do vetor $url
+
+		$metodo = $url[0]; //Está pegando o primeiro pedaço da string e jogando dentro da variável $metodo
+		array_shift($url); //Está removendo o valor da primeiro posição do vetor $url
+
+		$parametros = array(); //Está criando uma nova variavél e colocando uma variavél dentro dela
+		$parametros = $url; //Está passando os parâmetros da $url para a variavel
+
+		if (class_exists($classe)) { //Se a classe existe
+			if (method_exists($classe, $metodo)) { //Se existe o metodo dentro classe Mãe
+				$retorno = call_user_func_array(array(new $classe, $metodo), $parametros); //Criando o objeto chamdo de classe, para que possa ser usado o metódo e os parâmetros e que no final sejam introduzidos na variavel retorno
+
+				return json_encode(array('status' => 'Sucesso', 'message' => $retorno)); //Se der certo vai mretornar os dados corretamente
+			}else{
+				return json_encode(array('status' => 'error', 'message' => 'O método não existe')); //Senão existir a API vai mandar um array com mensagens de erros
+			}
+		} else {
+			return json_encode(array('status' => 'error', 'message' => 'A classe não existe')); //Senão existir a API vai mandar um array com mensagens de erros
+		}
+		
+	}
+
 }
 
 
+if (isset($_REQUEST)) { //Se houver requisição
+	Rest::open($_REQUEST); //Chama o método open() da classe Rest criada logo acima
+} 
 
 
 

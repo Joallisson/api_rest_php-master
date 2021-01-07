@@ -1,12 +1,14 @@
 <?php
 
-header('Content-Type: aplication/json; charset: utf-8');
+header('Content-Type: application/json; charset=utf-8'); //Esta dizendo para o navegador que será usado o json
+
+require_once 'classes/Estoque.php'; //Importando a classe Estoque
 
 class Rest //Classe Rest
 {
 	public static function open($requisicao) //Método open
 	{
-		$url = explode('/', $_REQUEST['url']); //Essa linha de código, quebra em vários pedaços, a requisição do tipo GET que é passada na URL. O corte da string da requisição é feito sempre que aparaece o "/"		
+		$url = explode('/', $requisicao['url']); //Essa linha de código, quebra em vários pedaços, a requisição do tipo GET que é passada na URL. O corte da string da requisição é feito sempre que aparaece o "/"		
 
 		$classe = ucfirst($url[0]); //Está pegando o primeiro pedaço da string e jogando dentro da variável $classe| a função ucfirst() deixa a primeira letra maiúscula
 		array_shift($url); //Está removendo o valor da primeiro posição do vetor $url
@@ -31,6 +33,8 @@ class Rest //Classe Rest
 			}
 		} catch (\Throwable $e) { //Se der algum erro, a mensagem irá para a variável $e apara que depois ela possa ser usada
 			return json_encode(array('status' => 'error', $e->getMessage())); //Vai pegar a mensagem de error e retorna-la
+
+			echo "Deu erro";
 		}
 		
 		
@@ -40,7 +44,8 @@ class Rest //Classe Rest
 
 
 if (isset($_REQUEST)) { //Se houver requisição
-	Rest::open($_REQUEST); //Chama o método open() da classe Rest criada logo acima
+	
+	 echo Rest::open($_REQUEST); //Chama o método open() da classe Rest criada logo acima
 } 
 
 

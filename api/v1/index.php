@@ -1,5 +1,7 @@
 <?php
 
+header('Content-Type: aplication/json; charset: utf-8');
+
 class Rest //Classe Rest
 {
 	public static function open($requisicao) //Método open
@@ -15,17 +17,22 @@ class Rest //Classe Rest
 		$parametros = array(); //Está criando uma nova variavél e colocando uma variavél dentro dela
 		$parametros = $url; //Está passando os parâmetros da $url para a variavel
 
-		if (class_exists($classe)) { //Se a classe existe
-			if (method_exists($classe, $metodo)) { //Se existe o metodo dentro classe Mãe
-				$retorno = call_user_func_array(array(new $classe, $metodo), $parametros); //Criando o objeto chamdo de classe, para que possa ser usado o metódo e os parâmetros e que no final sejam introduzidos na variavel retorno
-
-				return json_encode(array('status' => 'Sucesso', 'message' => $retorno)); //Se der certo vai mretornar os dados corretamente
-			}else{
-				return json_encode(array('status' => 'error', 'message' => 'O método não existe')); //Senão existir a API vai mandar um array com mensagens de erros
+		try { //Vai tentar executar os comando abaixo
+			if (class_exists($classe)) { //Se a classe existe
+				if (method_exists($classe, $metodo)) { //Se existe o metodo dentro classe Mãe
+					$retorno = call_user_func_array(array(new $classe, $metodo), $parametros); //Criando o objeto chamdo de classe, para que possa ser usado o metódo e os parâmetros e que no final sejam introduzidos na variavel retorno
+	
+					return json_encode(array('status' => 'Sucesso', 'message' => $retorno)); //Se der certo vai mretornar os dados corretamente
+				}else{
+					return json_encode(array('status' => 'error', 'message' => 'O método não existe')); //Senão existir a API vai mandar um array com mensagens de erros
+				}
+			} else {
+				return json_encode(array('status' => 'error', 'message' => 'A classe não existe')); //Senão existir a API vai mandar um array com mensagens de erros
 			}
-		} else {
-			return json_encode(array('status' => 'error', 'message' => 'A classe não existe')); //Senão existir a API vai mandar um array com mensagens de erros
+		} catch (\Throwable $e) { //Se der algum erro, a mensagem irá para a variável $e apara que depois ela possa ser usada
+			return json_encode(array('status' => 'error', $e->getMessage())); //Vai pegar a mensagem de error e retorna-la
 		}
+		
 		
 	}
 
